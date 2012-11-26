@@ -5,7 +5,9 @@ class Billy
     class Init
       
       def proceed!( arguments )
-        
+        arguments[ :path ] ||= File.dirname( __FILE__ )
+        cfg = Billy::Config.load!( arguments[ :path ] )
+        ( cfg = Billy::Config.new( arguments[ :path ] ) ) unless !cfg.nil?
       end
       
       protected

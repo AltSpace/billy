@@ -1,6 +1,6 @@
 require 'lib/billy/commands'
 
-describe 'Commands' do
+describe Billy::Commands do
   
   context 'pool' do
     
@@ -9,7 +9,7 @@ describe 'Commands' do
     end
     
     it 'should be [] after register_pool!' do
-      Billy::Commands.register_pool!
+      Billy::Commands.load_pool!
       Billy::Commands.pool.should be_an_instance_of( Array )
     end
     
