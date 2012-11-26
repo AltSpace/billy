@@ -10,7 +10,7 @@ describe 'Commands' do
     
     it 'should be [] after register_pool!' do
       Billy::Commands.register_pool!
-      Billy::Commands.pool.should eq []
+      Billy::Commands.pool.should be_an_instance_of( Array )
     end
     
   end

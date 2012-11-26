@@ -7,12 +7,12 @@ class Billy
       
       def register_pool!
         self.pool ||= []
-        Dir[ "billy/commands/*.rb" ].each { |file| require file }
+        Dir[ File.expand_path( File.dirname(__FILE__) + '/commands/**/*.rb' ) ].each { |file| require file }
       end
       
       def register_command!( command )
         register_pool! unless pool.nil?
-        pool.push( command ) unless pool.contains?( command )
+        pool.push( command ) unless pool.include?( command )
       end
       
     end
