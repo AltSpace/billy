@@ -15,8 +15,10 @@ class Billy
       
       class << self
         
+        attr_accessor :_instance
+        
         def instance
-          @@instance ||= self.new
+          self._instance ||= self.new
         end
         
         def register_self!
