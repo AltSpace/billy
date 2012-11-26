@@ -15,6 +15,7 @@ class Billy
         raise "Unknown command given: #{command_name}" if cmd.nil?
         cmd.proceed!( arguments )
       end
+      
     end
   end
 end

@@ -6,7 +6,7 @@ class Billy
       attr_accessor :pool
       
       def load_pool!
-        self.pool ||= []
+        self.pool ||= Hash.new
         commands_path = File.expand_path( File.dirname(__FILE__) + '/commands/**/*.rb' )
         Dir[ commands_path ].each do |file|
           require file
@@ -15,7 +15,7 @@ class Billy
       
       def register_command!( command )
         load_pool! unless !pool.nil?
-        pool.push( command ) unless pool.include?( command )
+        ( pool[ command.name ] = command ) unless pool.values.include?( command )
       end
       
     end

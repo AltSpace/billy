@@ -5,18 +5,29 @@ class Billy
     class Init
       
       def proceed!( arguments = nil )
-        ( path = arguments.shift ) unless arguments.nil?
-        if path.nil? || path.empty?
-          print "Billy will be initialized in current directory. Proceed?(y/n)"
-          confirm = gets
-          exit 1 unless confirm.downcase.strip == "y"
-        end
+        path = get_init_path( arguments )
+        config = Billy::Config.instance
+        config.save!( path, true )
+      end
+      
+      def name
+        self.class.to_s.split( "::" ).last.downcase
       end
       
       protected
       
       def initialize
-        
+      end
+      
+      def get_init_path( arguments )
+        ( path = arguments.shift ) unless arguments.nil?
+        if path.nil? || path.empty?
+          print "Billy will be inited in current directory. Proceed?(y/n)"
+          confirm = gets.chomp
+          exit 1 unless confirm.downcase == "y"
+          path = Dir.pwd
+        end
+        File.expand_path( path )
       end
       
       class << self
