@@ -23,7 +23,7 @@ class Billy
     def to_s
       [].tap { |res|
         self.storage.each_pair do |k, v|
-          res.push "#{k}\t#{v}"
+          res.push "#{k}: #{v}"
         end
       }.push( "" ).join( "\n" )
     end
@@ -48,9 +48,10 @@ class Billy
       file = File.new( file_path )
       while line = file.gets
         next unless !line.empty?
-        items = line.split( "\t" )
+        separator = ": "
+        items = line.split( separator )
         k = items.shift
-        v = items.join( "\t" ).strip
+        v = items.join( separator ).strip
         ( self.storage[ k.to_s ] = v ) unless k.nil? || k.empty? || v.nil? || v.empty?
       end
       file.close

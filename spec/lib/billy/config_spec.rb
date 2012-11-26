@@ -58,8 +58,8 @@ describe Billy::Config do
     let!( :known_value3 ) { 'mnsdg#$%^&3fkgwu' }
     let!( :template ) {
       <<-EOS
-#{known_key1}\t#{known_value1}
-#{known_key2}\t#{known_value2}
+#{known_key1}: #{known_value1}
+#{known_key2}: #{known_value2}
 EOS
     }
     
