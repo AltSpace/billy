@@ -4,10 +4,13 @@ class Billy
   class Commands
     class Init
       
-      def proceed!( arguments )
-        arguments[ :path ] ||= File.dirname( __FILE__ )
-        cfg = Billy::Config.load!( arguments[ :path ] )
-        ( cfg = Billy::Config.new( arguments[ :path ] ) ) unless !cfg.nil?
+      def proceed!( arguments = nil )
+        ( path = arguments.shift ) unless arguments.nil?
+        if path.nil? || path.empty?
+          print "Billy will be initialized in current directory. Proceed?(y/n)"
+          confirm = gets
+          exit 1 unless confirm.downcase.strip == "y"
+        end
       end
       
       protected

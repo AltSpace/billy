@@ -14,7 +14,7 @@ class Billy
       end
       
       def register_command!( command )
-        load_pool! unless pool.nil?
+        load_pool! unless !pool.nil?
         pool.push( command ) unless pool.include?( command )
       end
       

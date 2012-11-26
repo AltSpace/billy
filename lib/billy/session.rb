@@ -5,13 +5,15 @@ class Billy
       def run!( args )
         Billy::Commands.register_pool!
         command = ARGV.shift
-        status = proceed_command!( command_name )
+        arguments = ARGV
+        status = proceed_command!( command_name, arguments )
         exit status
       end
       
-      def proceed_command!( command_name )
+      def proceed_command!( command_name, arguments )
         cmd = Billy::Commands.pool[ command_name.to_sym ]
         raise "Unknown command given: #{command_name}" if cmd.nil?
+        cmd.proceed!( arguments )
       end
     end
   end
