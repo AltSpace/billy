@@ -17,37 +17,15 @@ Jeweler::Tasks.new do |gem|
   gem.name = "billy"
   gem.homepage = "http://github.com/AltSpace/billy"
   gem.license = "MIT"
-  gem.summary = %Q{Simple deploy system}
+  gem.summary = %Q{Billy the tool}
   gem.description = %Q{Billy is simplified deploy system working on top of prepared backend}
   gem.email = "me@4pcbr.com"
   gem.authors = ["4pcbr"]
-  # dependencies defined in Gemfile
+  gem.executables = %w(billy)
 end
 Jeweler::RubygemsDotOrgTasks.new
 
-require 'rake/testtask'
-Rake::TestTask.new(:test) do |test|
-  test.libs << 'lib' << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-end
-
-require 'rcov/rcovtask'
-Rcov::RcovTask.new do |test|
-  test.libs << 'test'
-  test.pattern = 'test/**/test_*.rb'
-  test.verbose = true
-  test.rcov_opts << '--exclude "gems/*"'
-end
-
-task :default => :test
-
-require 'rdoc/task'
-Rake::RDocTask.new do |rdoc|
-  version = File.exist?('VERSION') ? File.read('VERSION') : ""
-
-  rdoc.rdoc_dir = 'rdoc'
-  rdoc.title = "billy #{version}"
-  rdoc.rdoc_files.include('README*')
-  rdoc.rdoc_files.include('lib/**/*.rb')
+require 'rspec/core/rake_task'
+RSpec::Core::RakeTask.new(:spec) do |config|
+  config.rcov = true
 end
