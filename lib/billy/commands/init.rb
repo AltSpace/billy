@@ -1,22 +1,13 @@
-require 'billy/commands'
+require 'billy/commands/command'
 
 class Billy
   class Commands
-    class Init
+    class Init < Command
       
       def proceed!( arguments = nil )
         path = get_init_path( arguments )
         config = Billy::Config.instance
         config.save!( path, true )
-      end
-      
-      def name
-        self.class.to_s.split( "::" ).last.downcase
-      end
-      
-      protected
-      
-      def initialize
       end
       
       def get_init_path( arguments )
@@ -30,17 +21,6 @@ class Billy
         File.expand_path( path )
       end
       
-      class << self
-        
-        def instance
-          @@instance ||= self.new
-        end
-        
-        def register_self!
-          Billy::Commands.register_command!( instance )
-        end
-        
-      end
     end
   end
 end
