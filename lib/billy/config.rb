@@ -4,24 +4,16 @@ class Billy
     BILLYRC = '.billyrc'
     
     attr_accessor :storage
+    attr_accessor :storage_path
     
     def method_missing( m, *args, &block )
       if m.to_s[ /=$/ ].nil?
-        # get method
         self.storage[ m.to_s ]
       else
-        # set method
-        self.storage[ ( m.to_s )[ /^([^=]+)/ ] ] = args.shift
+        key = ( m.to_s )[ /^([^=]+)/ ]
+        val = args.shift
+        ( self.storage[ key ] = val ) unless key.nil? && key.empty?
       end
-    end
-    
-    def save!( dir )
-      # TODO: save it
-      raise 'Directory name should not be empty' unless !dir.empty?
-      raise "Directory #{dir.to_s} doesn't exist" unless File.exist?( File.expand_path( dir ) )
-      billyrc_path = File.expand_path( dir_to_save + "/#{BILLYRC}" )
-      billyrc_file = File.new( billyrc_path )
-      raise "Config already exists in #{billyrc_path}" unless !config_exists?( dir )
     end
     
     def config_exists?( dir )
@@ -35,7 +27,52 @@ class Billy
         end
       }.push( "" ).join( "\n" )
     end
-
+    
+    def load
+      %w(. ~).each do |path|
+        begin
+          load!( File.expand_path( path ) )
+          return true
+        rescue e
+          next
+        end
+      end
+      
+      false
+    end
+    
+    def load!( dir )
+      self.storage_path = File.expand_path( dir )
+      file_path = storage_path + "/#{BILLYRC}"
+      raise "Config was not found in #{path}" unless File.exists?( file_path )
+      file = File.new( file_path )
+      while line = file.gets
+        next unless !line.empty?
+        items = line.split( "\t" )
+        k = items.shift
+        v = items.join( "\t" ).strip
+        ( self.storage[ k.to_s ] = v ) unless k.nil? || k.empty? || v.nil? || v.empty?
+      end
+      file.close
+    end
+    
+    def reload!( dir = nil )
+      dir ||= storage_path
+      self.storage.clear
+      load!( dir )
+    end
+    
+    def save!( dir, force = false )
+      raise 'Directory name should not be empty' unless !dir.empty?
+      raise "Directory #{dir.to_s} doesn't exist" unless File.exist?( File.expand_path( dir ) )
+      billyrc_path = File.expand_path( dir + "/#{BILLYRC}" )
+      raise "Config already exists in #{billyrc_path}" unless !File.exists?( billyrc_path ) || force
+      File.open( billyrc_path, 'w' ) { |file|
+        file.flush
+        file.write( self.to_s )
+      }
+    end
+    
     protected
     
     def initialize
