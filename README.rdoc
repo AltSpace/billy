@@ -1,11 +1,12 @@
-#Billy the tool
+= Billy the tool
 
-##Usage
+== Usage
 
-###Create new project
-  *billy create #{app}
-###Setup existing project
-  *billy init
-  *billy init #{path}
-###Deploy existing project
-  *billy deploy
+=== Create new project
+* billy create #{app}
+
+=== Setup existing project
+* billy init
+* billy init #{path}
+=== Deploy existing project
+* billy deploy
