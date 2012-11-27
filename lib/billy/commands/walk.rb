@@ -21,14 +21,14 @@ class Billy
         end
         
         cap = prepare_capistrano(destination)
-
-        #deploy here
+        cap.execute!( "deploy:setup" )
+        cap.execute!( "deploy" )
       end
 
-      def prepare_capistrano(destination) 
+      def prepare_capistrano( destination ) 
         cap = Capistrano::Configuration.new
         config = Billy::Config.instance
-
+        
         cap.set :scm, "git"
         cap.set :deploy_via, :remote_cache
         cap.set :deploy_path, File.join(config.remote_path,destination)
