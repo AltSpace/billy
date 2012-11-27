@@ -8,6 +8,10 @@ describe Billy::Commands::Eat do
     Dir.chdir( File.expand_path( "tmp" ) )
   end
   
+  after :all do
+    Dir.chdir( File.expand_path( ".." ) )
+  end
+  
   before :each do
     Billy::Config.instance.clear
     command.stub!( :gets ) { "y\n" }
