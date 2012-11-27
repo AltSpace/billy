@@ -2,10 +2,8 @@ require 'billy/commands/walk'
 
 describe Billy::Commands::Walk do
   let!( :command ) { Billy::Commands::Walk.instance }
-  let( :config_path ) { File.expand_path( Billy::Config::BILLYRC ) }
   
   before :each do
-    File.unlink( config_path ) if File.exists?( config_path )
     Billy::Config.stub( :load ) {
       Billy::Config.clear
       Billy::Config.stub(
