@@ -34,7 +34,7 @@ class Billy
         begin
           load!( File.expand_path( path ) )
           return true
-        rescue e
+        rescue
           next
         end
       end
