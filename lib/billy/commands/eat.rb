@@ -29,7 +29,9 @@ class Billy
           print "#{k}: #{v}\n"
         end
         print "Save this settings?"
-        res = get_confirmation
+        confirm = get_confirmation
+        exit 1 unless confirm
+        Billy::Config.save
       end
       
       def uri?( str )

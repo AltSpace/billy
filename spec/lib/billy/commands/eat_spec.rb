@@ -4,6 +4,10 @@ describe Billy::Commands::Eat do
   
   let!( :command ) { Billy::Commands::Eat.instance }
   
+  before :all do
+    Dir.chdir( File.expand_path( "tmp" ) )
+  end
+  
   before :each do
     Billy::Config.instance.clear
     command.stub!( :gets ) { "y\n" }
@@ -12,8 +16,8 @@ describe Billy::Commands::Eat do
   
   describe 'Proceed' do
     
-    let!( :non_existant_file ) { File.expand_path( Dir.pwd + "/tmp/some_settings_file.txt" ) }
-    let!( :existant_file ) { File.expand_path( Dir.pwd + "/tmp/#{Billy::Config::BILLYRC}" ) }
+    let!( :non_existant_file ) { File.expand_path( Dir.pwd + "/some_settings_file.txt" ) }
+    let!( :existant_file ) { File.expand_path( Dir.pwd + "/#{Billy::Config::BILLYRC}" ) }
     
     it 'Should raise error if no path given' do
       expect { command.proceed! }.to raise_error
@@ -24,7 +28,7 @@ describe Billy::Commands::Eat do
     end
     
     it 'Should not raise error if config file exists' do
-      Billy::Config.instance.save!( File.expand_path( Dir.pwd + "/tmp" ) ) unless File.exists?( existant_file )
+      Billy::Config.instance.save!( File.expand_path( Dir.pwd ) ) unless File.exists?( existant_file )
       expect { command.proceed!( existant_file ) }.not_to raise_error
     end
     
@@ -52,10 +56,14 @@ describe Billy::Commands::Eat do
     it 'Should save all the settings to config' do
       # simply remove it if it fails )))
       command.proceed!( remote_path )
-      Billy::Config.instance.storage
       Billy::Config.instance.send( "User-Agent" ).should eq "*"
     end
     
+    it 'Should save config file' do
+      File.unlink( Billy::Config::BILLYRC ) if File.exists?( Billy::Config::BILLYRC )
+      command.proceed!( remote_path )
+      File.exists?( File.expand_path( Dir.pwd + "/#{Billy::Config::BILLYRC}" ) ).should be_true
+    end
   end
   
 end

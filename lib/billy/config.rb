@@ -59,6 +59,16 @@ class Billy
       load!( dir )
     end
     
+    def save( dir = nil )
+      dir ||= Dir.pwd
+      begin
+        save!( dir, true )
+        true
+      rescue
+        false
+      end
+    end
+    
     def save!( dir, force = false )
       raise 'Directory name should not be empty' unless !dir.empty?
       raise "Directory #{dir.to_s} doesn't exist" unless File.exist?( File.expand_path( dir ) )
@@ -95,6 +105,10 @@ class Billy
       
       def settings
         instance.storage
+      end
+      
+      def method_missing( m, *args, &block )
+        instance.send( m, *args, &block ) if instance.respond_to?( m )
       end
       
     end
