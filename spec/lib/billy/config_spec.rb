@@ -58,14 +58,15 @@ describe Billy::Config do
     let!( :known_value3 ) { 'mnsdg#$%^&3fkgwu' }
     let!( :template ) {
       <<-EOS
-#{known_key1}: #{known_value1}
-#{known_key2}: #{known_value2}
+#{known_key1}#{Billy::Config::SEPARATOR}#{known_value1}
+#{known_key2}#{Billy::Config::SEPARATOR}#{known_value2}
 EOS
     }
     
     before :each do
       billyrc_path = File.expand_path( test_dir + "/#{Billy::Config::BILLYRC}" )
       File.unlink( billyrc_path ) if File.exists?( billyrc_path )
+      Billy::Config.instance.clear
     end
     
     it 'Should return false if config doesn\'t exists' do

@@ -36,6 +36,11 @@ describe Billy::Commands::Eat do
       res.should_not be_empty
     end
     
+    it 'Should save all the settings to config' do
+      Billy::Commands::Eat.instance.proceed!( remote_path )
+      
+    end
+    
   end
   
 end

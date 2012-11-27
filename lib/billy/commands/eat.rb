@@ -8,9 +8,18 @@ class Billy
       
       def proceed!( *arguments )
         ( path = arguments.shift ) unless arguments.nil?
-        raise "No config path given. \n\nYou have to provide some settings path, e.g. in your local filesystem or direct link to blob file in repository etc.\n" unless !path.nil? && !path.empty?
-        raise "Remote config file could not be loaded" unless !uri?( path ) || ( result = load_remote_config( path ) ).nil?
-        raise "Config File not found: #{path}" unless file?( path ) && File.exists?( path )
+        if path.nil? || path.empty?
+          raise "No config path given. \n\nYou have to provide some settings path, e.g. in your local filesystem or direct link to blob file in repository etc.\n"
+        elsif uri?( path ) && ( result = load_remote_config( path ) ).nil?
+          raise "Remote config file could not be loaded"
+        elsif file?( path ) && ( !File.exists?( path ) || ( result = File.read( path ) ).nil? )
+          raise "Config File not found: #{path}"
+        end
+        eat_config( result )
+      end
+      
+      def eat_config( config_string )
+        Billy::Config.instance.eat_string_config( config_string )
       end
       
       def uri?( str )

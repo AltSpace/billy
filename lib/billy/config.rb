@@ -2,6 +2,7 @@ class Billy
   class Config
     
     BILLYRC = '.billyrc'
+    SEPARATOR = ': '
     
     attr_accessor :storage
     attr_accessor :storage_path
@@ -23,7 +24,7 @@ class Billy
     def to_s
       [].tap { |res|
         self.storage.each_pair do |k, v|
-          res.push "#{k}: #{v}"
+          res.push "#{k}#{SEPARATOR}#{v}"
         end
       }.push( "" ).join( "\n" )
     end
@@ -45,21 +46,16 @@ class Billy
       self.storage_path = File.expand_path( dir )
       file_path = storage_path + "/#{BILLYRC}"
       raise "Config was not found in #{path}" unless File.exists?( file_path )
-      file = File.new( file_path )
-      while line = file.gets
-        next unless !line.empty?
-        separator = ": "
-        items = line.split( separator )
-        k = items.shift
-        v = items.join( separator ).strip
-        ( self.storage[ k.to_s ] = v ) unless k.nil? || k.empty? || v.nil? || v.empty?
-      end
-      file.close
+      eat_string_config( File.read( file_path ) )
+    end
+    
+    def clear
+      self.storage.clear
     end
     
     def reload!( dir = nil )
       dir ||= storage_path
-      self.storage.clear
+      clear
       load!( dir )
     end
     
@@ -72,6 +68,16 @@ class Billy
         file.flush
         file.write( self.to_s )
       }
+    end
+    
+    def eat_string_config( string_config )
+      string_config.each_line do |line|
+        next unless !line.empty?
+        items = line.split( SEPARATOR )
+        k = items.shift
+        v = items.join( SEPARATOR ).strip
+        ( self.storage[ k.to_s ] = v ) unless k.nil? || k.empty? || v.nil? || v.empty?
+      end
     end
     
     protected
