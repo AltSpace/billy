@@ -2,7 +2,7 @@ require 'billy/commands/command'
 
 class Billy
   class Commands
-    class Init < Command
+    class Hello < Command
       
       def proceed!( arguments = nil )
         path = get_init_path( arguments )
@@ -25,4 +25,4 @@ class Billy
   end
 end
 
-Billy::Commands::Init.register_self!
+Billy::Commands::Hello.register_self!

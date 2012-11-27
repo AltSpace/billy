@@ -1,19 +1,19 @@
-require 'billy/commands/init'
+require 'billy/commands/hello'
 
-describe Billy::Commands::Init do
+describe Billy::Commands::Hello do
   
   describe 'Register' do
     
     it 'Should register itself' do
-      expect { Billy::Commands::Init.register_self! }.not_to raise_error
-      Billy::Commands.pool.values.should include Billy::Commands::Init.instance
+      expect { Billy::Commands::Hello.register_self! }.not_to raise_error
+      Billy::Commands.pool.values.should include Billy::Commands::Hello.instance
     end
     
   end
   
   describe 'Proceed' do
     
-    let!( :command ) { Billy::Commands::Init.instance }
+    let!( :command ) { Billy::Commands::Hello.instance }
     let!( :init_path ) { File.expand_path( File.dirname( __FILE__ ) + "../../../../../tmp" ) }
     let!( :arguments ) { [ init_path ] }
     
