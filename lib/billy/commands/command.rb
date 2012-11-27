@@ -13,6 +13,10 @@ class Billy
       def initialize
       end
       
+      def get_confirmation
+        gets.chomp.downcase == "y"
+      end
+      
       class << self
         
         attr_accessor :_instance

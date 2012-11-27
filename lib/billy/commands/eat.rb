@@ -16,10 +16,20 @@ class Billy
           raise "Config File not found: #{path}"
         end
         eat_config( result )
+        save_config
       end
       
       def eat_config( config_string )
         Billy::Config.instance.eat_string_config( config_string )
+      end
+      
+      def save_config
+        print "Parsed config data:\n"
+        Billy::Config.settings.each_pair do |k, v|
+          print "#{k}: #{v}\n"
+        end
+        print "Save this settings?"
+        res = get_confirmation
       end
       
       def uri?( str )

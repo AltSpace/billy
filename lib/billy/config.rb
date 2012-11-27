@@ -71,6 +71,7 @@ class Billy
     end
     
     def eat_string_config( string_config )
+      clear
       string_config.each_line do |line|
         next unless !line.empty?
         items = line.split( SEPARATOR )
@@ -90,6 +91,10 @@ class Billy
       
       def instance
         @@instance ||= self.new
+      end
+      
+      def settings
+        instance.storage
       end
       
     end

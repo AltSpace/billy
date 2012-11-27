@@ -14,8 +14,8 @@ class Billy
         ( path = arguments.shift ) unless arguments.nil?
         if path.nil? || path.empty?
           print "Billy will be inited in current directory. Proceed?(y/n)"
-          confirm = gets.chomp
-          exit 1 unless confirm.downcase == "y"
+          confirm = get_confirmation
+          exit 1 unless confirm
           path = Dir.pwd
         end
         File.expand_path( path )
