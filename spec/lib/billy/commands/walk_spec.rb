@@ -6,6 +6,14 @@ describe Billy::Commands::Walk do
   
   before :each do
     File.unlink( config_path ) if File.exists?( config_path )
+    Billy::Config.stub( :load ) {
+      Billy::Config.clear
+      Billy::Config.stub(
+        :user => "nobody",
+        :remote_path => "/tmp/",
+        :repository => "git://some.repo.com/"
+      )
+    }
     command.stub!( :print ) {}
   end
   
@@ -24,7 +32,6 @@ describe Billy::Commands::Walk do
     end
     
     it 'Should raise SystemExit if app name is neither provided nor stored in config' do
-      
       expect { command.proceed! }.to raise_error SystemExit
     end
   end
