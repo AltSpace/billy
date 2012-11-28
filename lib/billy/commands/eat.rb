@@ -6,14 +6,19 @@ class Billy
   class Commands
     class Eat < Command
       
-      def proceed!( *arguments )
+      def proceed!( arguments )
         ( path = arguments.shift ) unless arguments.nil?
-        if path.nil? || path.empty?
-          raise "No config path given. \n\nYou have to provide some settings path, e.g. in your local filesystem or direct link to blob file in repository etc.\n"
-        elsif uri?( path ) && ( result = load_remote_config( path ) ).nil?
-          raise "Remote config file could not be loaded"
-        elsif file?( path ) && ( !File.exists?( path ) || ( result = File.read( path ) ).nil? )
-          raise "Config File not found: #{path}"
+        begin
+          if path.nil? || path.empty?
+            raise "No config path given. \nYou have to provide some settings path, e.g. in your local filesystem or direct link to blob file in repository etc.\n"
+          elsif uri?( path ) && ( result = load_remote_config( path ) ).nil?
+            raise "Remote config file could not be loaded"
+          elsif file?( path ) && ( !File.exists?( path ) || ( result = File.read( path ) ).nil? )
+            raise "Config File not found: #{path}"
+          end
+        rescue Exception => e
+          print e.message
+          exit 1
         end
         eat_config( result )
         save_config
@@ -28,10 +33,15 @@ class Billy
         Billy::Config.settings.each_pair do |k, v|
           print "#{k}: #{v}\n"
         end
-        print "Save this settings?"
+        print "Save this settings?(y/n): "
         confirm = get_confirmation
-        exit 1 unless confirm
+        if !confirm
+          print "Billy didn't save config file. Skipping\n"
+          exit 1
+        end
         Billy::Config.save
+        print "Billy saved config file to #{Billy::Config::BILLYRC}\n"
+        exit 0
       end
       
       def uri?( str )
