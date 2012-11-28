@@ -20,8 +20,9 @@ server: 192.168.216.93
 
 ```bash
 gem install billy --source http://gems.undev.cc
-cd project_folder
+cd ~
 billy eat http://192.168.216.93/billy.cfg
+cd project_name
 billy walk project_name
 open http://192.168.216.93/project_name/index.html
 ```
