@@ -15,7 +15,6 @@ class Billy
         end
         offer_ssh_keygen unless ssh_key_exists?
         print "All done!\n"
-        exit 0
       end
       
       def billy_say_hello

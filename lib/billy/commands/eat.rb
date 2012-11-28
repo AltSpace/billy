@@ -41,7 +41,6 @@ class Billy
         end
         Billy::Config.save
         print "Billy saved config file to #{Billy::Config::BILLYRC}\n"
-        exit 0
       end
       
       def uri?( str )

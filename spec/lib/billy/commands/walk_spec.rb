@@ -42,8 +42,9 @@ EOS
       Billy::Config.clear
       Billy::Config.any_instance.stub(
         :user => "nobody",
-        :remote_path => "/tmp/",
-        :repository => "git://some.repo.com/"
+        :deploy_to => "/tmp/",
+        :repository => "git://some.repo.com/",
+        :server => "127.0.0.1"
       )
       true
     }
@@ -52,7 +53,7 @@ EOS
     
     stub!( :system ) { |arg| p arg }
     
-    Capistrano::Configuration.any_instance.stub( :execute! ) {}
+    Capistrano::Configuration.any_instance.stub( :find_and_execute_task ) {}
   end
   
   describe 'proceed!' do
@@ -68,7 +69,6 @@ EOS
     it 'Should deploy if destination given' do
       destination = "some_destination"
       expect { command.proceed!( [ destination ] ) }.to_not raise_error
-      
     end
   end
 
@@ -78,9 +78,10 @@ EOS
       before :each do
         Billy::Config.any_instance.stub(
           :user => "nobody",
-          :remote_path => "/tmp/",
-          :repository => "git://some.repo.com/"
-          )
+          :deploy_to => "/tmp/",
+          :repository => "git://some.repo.com/",
+          :server => "127.0.0.1"
+        )
 
       end
 

@@ -33,7 +33,7 @@ describe Billy::Commands::Eat do
     
     it 'Should not raise error if config file exists' do
       Billy::Config.instance.save!( File.expand_path( Dir.pwd ) ) unless File.exists?( existant_file )
-      expect { command.proceed!( existant_file ) }.not_to raise_error
+      expect { command.proceed!( [ existant_file ] ) }.not_to raise_error
     end
     
   end
@@ -59,13 +59,13 @@ describe Billy::Commands::Eat do
     
     it 'Should save all the settings to config' do
       # simply remove it if it fails )))
-      command.proceed!( remote_path )
+      command.proceed!( [ remote_path ] )
       Billy::Config.instance.send( "User-Agent" ).should eq "*"
     end
     
     it 'Should save config file' do
       File.unlink( Billy::Config::BILLYRC ) if File.exists?( Billy::Config::BILLYRC )
-      command.proceed!( remote_path )
+      command.proceed!( [ remote_path ] )
       File.exists?( File.expand_path( Dir.pwd + "/#{Billy::Config::BILLYRC}" ) ).should be_true
     end
   end
