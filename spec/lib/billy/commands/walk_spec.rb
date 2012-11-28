@@ -137,14 +137,6 @@ EOS
     
   end
   
-  describe 'get_git_config' do
-    pending
-  end
-  
-  describe 'local_repository_exists?' do
-    pending
-  end
-  
   describe 'remote_repository_exists?' do
     
     it 'Returns true for config with remotes' do
