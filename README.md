@@ -1,6 +1,6 @@
 # Billy the tool
 
-## Usage
+## Commands
 
 ### Setup existing project
 * billy hello
@@ -21,6 +21,11 @@ server: 192.168.216.93
 
 ```bash
 gem install billy --source http://gems.undev.cc
+```
+
+## Usage
+
+```bash
 cd ~
 billy eat http://192.168.216.93/billy.cfg
 cd project_name
