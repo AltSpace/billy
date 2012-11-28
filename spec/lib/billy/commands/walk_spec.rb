@@ -18,7 +18,7 @@ describe Billy::Commands::Walk do
     command.stub!( :print ) {}
     
     Capistrano::Configuration.any_instance.stub( :execute! ) { |arg|
-      print "Capistrano executes task #{arg}"
+      print "Capistrano executes task #{arg}\n"
     }
   end
   
