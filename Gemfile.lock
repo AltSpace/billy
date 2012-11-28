@@ -46,7 +46,6 @@ GEM
     shoulda-context (1.0.1)
     shoulda-matchers (1.4.1)
       activesupport (>= 3.0.0)
-    trollop (2.0)
 
 PLATFORMS
   ruby
@@ -59,4 +58,3 @@ DEPENDENCIES
   rdoc (~> 3.12)
   rspec (~> 2.12.0)
   shoulda
-  trollop (~> 2.0)

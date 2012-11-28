@@ -18,10 +18,12 @@ Jeweler::Tasks.new do |gem|
   gem.homepage = "http://github.com/AltSpace/billy"
   gem.license = "MIT"
   gem.summary = %Q{Billy the tool}
-  gem.description = %Q{Billy is simplified deploy system working on top of prepared backend}
+  gem.description = %Q{Billy is simplified deploy system based on top of capistrano}
   gem.email = "me@4pcbr.com"
   gem.authors = ["4pcbr"]
   gem.executables = %w(billy)
+  gem.files = Dir.glob('lib/**/*.rb') + Dir.glob('bin/*')
+  gem.add_dependency 'capistrano', '~> 2.13.5'
 end
 Jeweler::RubygemsDotOrgTasks.new
 
