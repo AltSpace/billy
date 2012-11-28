@@ -22,25 +22,47 @@ class Billy
           exit 1
         end
         
-        cap = prepare_capistrano(destination)
-        cap.execute!( "deploy:setup" )
-        cap.execute!( "deploy" )
+        cap = prepare_capistrano( destination )
+        %w(deploy:setup deploy).each do |command|
+          cap.find_and_execute_task(command, :before => :start, :after => :finish)
+        end
+        cap.trigger( :exit )
+        
+        print "All done! Billy is a clever boy!\n"
       end
 
-      def prepare_capistrano( destination ) 
+      def prepare_capistrano( destination )
+        
         cap = Capistrano::Configuration.new
+        cap.load "standard"
+        cap.load "deploy"
+        cap.trigger( :load )
         config = Billy::Config.instance
         
+        if config.deploy_to.nil?
+          print "Billy doesn't know remote deploy path. Please provide it in config under deploy_to key.\n"
+          exit 1
+        end
+        
         cap.set :scm, "git"
+        cap.set :use_sudo, false
         cap.set :deploy_via, :remote_cache
-        cap.set :deploy_path, File.join(config.remote_path,destination)
+        cap.set :application, destination
+        cap.set :deploy_to, File.join( config.deploy_to, destination )
+        cap.server config.server, :app, :web, :db, :primary => true
+        cap.set :user, config.user
         
         repository = config.repository || get_repository_path
         
-        [:user,:deploy_path].each do |variable|
-          cap.set variable, config.send(variable)
+        cap.set :repository, repository
+        cap.set :normalize_asset_timestamps, false
+        
+        cap.namespace :deploy do
+          cap.task :start, :roles => :app do; end
+          cap.task :stop, :roles => :app do; end
+          cap.task :restart, :roles => :app do; end
         end
-
+        
         cap
       end
 

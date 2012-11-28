@@ -17,7 +17,7 @@ class Billy
       def proceed_command!( command_name, arguments )
         cmd = Billy::Commands.pool[ command_name.to_s ]
         if cmd.nil?
-          print "Unknown command given: #{command_name}\n"
+          print "Billy doesn't know this command: #{command_name}. Say billy hello.\n"
           return 1
         end
         cmd.proceed!( arguments )

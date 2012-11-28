@@ -5,6 +5,7 @@ class Billy
     class Hello < Command
       
       def proceed!( arguments = nil )
+        billy_say_hello
         path = get_init_path( arguments )
         config = Billy::Config.instance
         config.save!( path, true )
@@ -13,6 +14,16 @@ class Billy
           exit 1
         end
         offer_ssh_keygen unless ssh_key_exists?
+        print "All done!\n"
+        exit 0
+      end
+      
+      def billy_say_hello
+        print "Hi! I'm Billy, simple deploy tool.\n"
+        print "Usage:\n"
+        print "  * billy hello (path) -- init billy in {path} folder. Inites in current if no one given.\n"
+        print "  * billy eat {cfg_path} -- parse and save billy config in current folder. {cfg_path} here means remote file url or local one.\n"
+        print "  * billy walk {application_name} -- deploy HEAD version in repository to remote server.\n"
       end
       
       def ssh_command_exists?
@@ -33,26 +44,30 @@ class Billy
       end
       
       def suggest_install_ssh
-        print "Billy wants you to install ssh command first. Please do it."
+        print "Billy wants you to install ssh command. Please do it first.\n"
       end
       
       def offer_ssh_keygen
-        print "Billy did not find your ssh key. Would you like to create it now?"
+        print "Billy did not find your ssh key. Would you like to create it now?(y/n): "
         confirm = get_confirmation
         if !confirm
-          print "Ssh key should be generated before we continue. Please generate it."
+          print "Ssh key should be generated before we continue. Please generate it.\n"
           exit 1
         end
         enc_type = 'rsa'
+        print "Billy creates ssh keys for you...\n"
         system "ssh-keygen -t #{enc_type} -N '' -f ~/.ssh/id_#{enc_type}"
+        print "All done!"
       end
       
       def get_init_path( arguments )
         ( path = arguments.shift ) unless arguments.nil?
         if path.nil? || path.empty?
-          print "Billy will be inited in current directory. Proceed?(y/n)"
+          print "Billy will be inited in current directory. Proceed?(y/n): "
           confirm = get_confirmation
-          exit 1 unless confirm
+          if !confirm
+            print "Billy has nothing to do. Bye-bye."
+          end
           path = Dir.pwd
         end
         File.expand_path( path )
