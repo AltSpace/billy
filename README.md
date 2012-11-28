@@ -17,12 +17,6 @@ user: user
 server: 192.168.216.93
 ```
 
-## Install
-
-```bash
-gem install billy --source http://gems.undev.cc
-```
-
 ## Usage
 
 ```bash
