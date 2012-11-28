@@ -1,14 +1,14 @@
-= Billy the tool
+# Billy the tool
 
-== Usage
+## Usage
 
-=== Setup existing project
+### Setup existing project
 * billy hello
 * billy eat billy_config
-=== Deploy existing project
+### Deploy existing project
 * billy walk {app_name}
 
-== Sample config file
+## Sample config file
 
 ```
 deploy_to: /var/web/
@@ -16,7 +16,7 @@ user: user
 server: 192.168.216.93
 ```
 
-== Install
+## Install
 
 ```bash
 gem install billy --source http://gems.undev.cc
