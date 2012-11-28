@@ -15,3 +15,13 @@ deploy_to: /var/web/
 user: user
 server: 192.168.216.93
 ```
+
+== Install
+
+```bash
+gem install billy --source http://gems.undev.cc
+cd project_folder
+billy eat http://192.168.216.93/billy.cfg
+billy walk project_name
+open http://192.168.216.93/project_name/index.html
+```
