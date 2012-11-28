@@ -5,6 +5,7 @@
 ### Setup existing project
 * billy hello
 * billy eat billy_config
+
 ### Deploy existing project
 * billy walk {app_name}
 
