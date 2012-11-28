@@ -2,11 +2,16 @@
 
 == Usage
 
-=== Create new project
-* billy create #{app}
-
 === Setup existing project
-* billy init
-* billy init #{path}
+* billy hello
+* billy eat billy_config
 === Deploy existing project
-* billy deploy
+* billy walk {app_name}
+
+== Sample config file
+
+```
+deploy_to: /var/web/
+user: user
+server: 192.168.216.93
+```
