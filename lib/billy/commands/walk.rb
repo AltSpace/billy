@@ -66,10 +66,14 @@ class Billy
         end
 
         idx = 1
+        i = 0
+        
+        match_data = get_remotes( config )
+        
         if match_data.length > 1
           print "Billy found several remotes in repository. Choose one to deploy from:"
           match_data.each do |remote|
-            ( i ||= 0 ) += 1
+            i += 1
             print "#{i}: #{remote[0]}\t\t#{remote[1]}\n"
           end
           while ( idx = gets.chomp.to_i ) > match_data.length; end
@@ -86,7 +90,7 @@ class Billy
       end
       
       def remote_repository_exists?( config )
-        get_remotes.any?
+        get_remotes( config ).any?
       end
       
       def get_remotes( config )
