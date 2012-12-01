@@ -55,6 +55,6 @@ open http://staging.server.com/project_name/index.html
 Authorization uses ssh keys only, no password auth.
 
 Auth process:
-deployer -> ssh -> staging server -> ssh -> git remote repository
+deployer → ssh → staging server → ssh → git remote repository
 
 This scheme requires deployer publick key to be placed on staging server and staging server publick key on remote git server.
