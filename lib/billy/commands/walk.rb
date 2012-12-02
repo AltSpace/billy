@@ -56,7 +56,7 @@ module Billy
           :use_sudo => false,
           :deploy_via => :remote_cache,
           :application => destination
-        }.merge( config.storage.reject{ |k, v| reject_keys.include?( k ) } ).each_pair do |k, v|
+        }.merge( config.storage.reject{ |k, v| reject_keys.include?( k.to_sym ) } ).each_pair do |k, v|
           cap.set k, v
         end
         
