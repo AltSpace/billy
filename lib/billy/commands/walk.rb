@@ -26,6 +26,8 @@ module Billy
             cap.find_and_execute_task(command, :before => :start, :after => :finish)
           end
           cap.trigger( :exit )
+          Billy::Util::UI.succ 'Billy has successfully deployed project!'
+          Billy::Util::UI.succ "Check http://#{Billy::Config.instance.server}/#{cap.application}/"
         rescue Exception => e
           Billy::Util::UI.err "Billy could not complete task: #{e.message}"
           exit 1
