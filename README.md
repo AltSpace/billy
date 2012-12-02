@@ -33,6 +33,14 @@ user: user
 server: staging.server.com
 ```
 
+### Get current config
+
+```bash
+billy my config
+```
+
+This command will return config settings from current folder if there wis .billyrc file, home settings from ~/.billyrc otherwise.
+
 ### GIT dependency
 Billy hopes to find git repository inside your project with existing remote. You haven't say billy where your remote is. It checks for `.git/config` file and grabs all the remotes inside.
 
@@ -65,4 +73,4 @@ This scheme requires deployer publick key to be placed on staging server and sta
 billy my key
 ```
 
-This command will return one of your ssh keys, first it returns id_rsa.pub key
+This command will return one of your ssh keys, id_rsa.pub by default
