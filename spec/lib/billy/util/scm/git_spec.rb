@@ -45,7 +45,7 @@ EOS
 
     before :each do
       git.stub!( :local_repository_exists? ) { true }
-      git.stub!( :get_git_config ) { git_config }
+      git.stub!( :get_config ) { git_config }
       git.stub!( :remote_repository_exists? ) { true }
     end
     

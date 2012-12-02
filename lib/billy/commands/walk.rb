@@ -20,11 +20,16 @@ module Billy
           exit 1
         end
         
-        cap = prepare_capistrano( destination )
-        %w(deploy:setup deploy).each do |command|
-          cap.find_and_execute_task(command, :before => :start, :after => :finish)
+        begin
+          cap = prepare_capistrano( destination )
+          %w(deploy:setup deploy).each do |command|
+            cap.find_and_execute_task(command, :before => :start, :after => :finish)
+          end
+          cap.trigger( :exit )
+        rescue Exception => e
+          Billy::Util::UI.err "Billy could not complete task: #{e.message}"
+          exit 1
         end
-        cap.trigger( :exit )
         
         Billy::Util::UI.succ "All done! Billy is a clever boy!"
       end

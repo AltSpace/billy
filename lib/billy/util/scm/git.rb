@@ -43,7 +43,7 @@ module Billy
           end
         end
 
-        config = get_git_config
+        config = get_config
 
         if !remote_repository_exists?( config )
           Billy::Util::UI.err "Billy could not find remote repository for your project."
