@@ -5,6 +5,7 @@ module Billy
   require 'billy/util/ui'
   require 'billy/commands'
   require 'billy/config'
+  require 'billy/util/ssh'
   require 'billy/util/scm/scm'
   require 'billy/util/scm/git'
 end

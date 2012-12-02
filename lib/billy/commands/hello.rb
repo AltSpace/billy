@@ -31,12 +31,7 @@ module Billy
       end
       
       def ssh_key_exists?
-        ssh_root_path = File.expand_path( "~/.ssh" )
-        res = true
-        res &= File.exists?( ssh_root_path )
-        res &= File.directory?( ssh_root_path )
-        res &= Dir[ ssh_root_path + "/*.pub" ].any?
-        res
+        Billy::Util::Ssh.get_pub_key.nil?
       end
       
       def suggest_install_ssh
