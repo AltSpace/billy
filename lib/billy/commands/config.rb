@@ -1,6 +1,6 @@
 require 'billy/commands/command'
 
-class Billy
+module Billy
   class Commands
     class Config < Command
       

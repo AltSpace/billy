@@ -1,6 +1,6 @@
 require 'billy/commands'
 
-class Billy
+module Billy
   class Commands
     class Command
       
@@ -11,10 +11,6 @@ class Billy
       protected
       
       def initialize
-      end
-      
-      def get_confirmation
-        gets.chomp.downcase == "y"
       end
       
       class << self

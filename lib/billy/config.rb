@@ -1,8 +1,8 @@
-class Billy
+module Billy
   class Config
     
     BILLYRC = '.billyrc'
-    SEPARATOR = ': '
+    SEPARATOR = /:\s*/
     
     attr_accessor :storage
     attr_accessor :storage_path

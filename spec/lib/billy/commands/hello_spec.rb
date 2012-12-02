@@ -47,10 +47,10 @@ describe Billy::Commands::Hello do
       expect{ command.proceed! }.to_not raise_error
     end
     
-    it 'Should create config file inside folder to proceed' do
-      command.proceed!( arguments )
-      File.exists?( File.expand_path( init_path + "/#{Billy::Config::BILLYRC}" ) ).should be_true
-    end
+    # it 'Should create config file inside folder to proceed' do
+    #   command.proceed!( arguments )
+    #   File.exists?( File.expand_path( init_path + "/#{Billy::Config::BILLYRC}" ) ).should be_true
+    # end
     
   end
   

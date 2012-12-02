@@ -1,4 +1,4 @@
-class Billy
+module Billy
   class Commands
     
     class << self
