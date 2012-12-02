@@ -2,39 +2,6 @@ require 'billy/commands/walk'
 
 describe Billy::Commands::Walk do
   let!( :command ) { Billy::Commands::Walk.instance }
-  let!( :url1 ) { 'gitorious@git.undev.cc:digital-october/panels.git' }
-  let!( :url2 ) { 'git@github.com:4pcbr/panels.git' }
-  let!( :git_config ) {
-    <<-EOS
-[core]
-	repositoryformatversion = 0
-	filemode = true
-	bare = false
-	logallrefupdates = true
-	ignorecase = true
-[remote "origin"]
-	url = #{url1}
-	fetch = +refs/heads/*:refs/remotes/origin/*
-[remote "gh"]
-	url = #{url2}
-	fetch = +refs/heads/*:refs/remotes/gh/*
-EOS
-  }
-  
-  let!( :git_config_without_remotes ) {
-    <<-EOS
-[core]
-	repositoryformatversion = 0
-	filemode = true
-	bare = false
-	logallrefupdates = true
-	ignorecase = true
-EOS
-  }
-  let!( :remotes ) { [
-    [ "origin", url1 ],
-    [ "gh", url2 ]
-  ] }
   
   before :each do
     
@@ -49,7 +16,8 @@ EOS
       true
     }
     
-    command.stub!( :print ) {}
+    Billy::Util::UI.stub!( :confirm? ) { true }
+    Billy::Util::UI.stub!( :inform ) {}
     
     stub!( :system ) { |arg| p arg }
     
@@ -116,54 +84,5 @@ EOS
       end
     end
 
-  end
-  
-  describe 'get_repository_path' do
-    
-    before :each do
-      command.stub!( :local_repository_exists? ) { true }
-      command.stub!( :get_git_config ) { git_config }
-      command.stub!( :remote_repository_exists? ) { true }
-    end
-    
-    it 'returns first remote path' do
-      command.stub!( :gets ) { "1\n" }
-      command.get_repository_path.should eq url1
-    end
-    
-    it 'returns first remote path' do
-      command.stub!( :gets ) { "2\n" }
-      command.get_repository_path.should eq url2
-    end
-    
-  end
-  
-  describe 'remote_repository_exists?' do
-    
-    it 'Returns true for config with remotes' do
-      command.remote_repository_exists?( git_config ).should be_true
-    end
-    
-    it 'Returns false for config without remotes' do
-      command.remote_repository_exists?( git_config_without_remotes ).should be_false
-    end
-    
-  end
-  
-  describe 'get_remotes' do
-    it 'Returns all remotes' do
-      command.get_remotes( git_config ).should eq remotes
-    end
-  end
-  
-  describe 'init_git_repository' do
-    
-    it 'forces system to call git init' do
-      system_arg = nil
-      command.stub!( :system ) { |arg| system_arg = arg }
-      command.init_git_repository
-      system_arg.should eq "git init ."
-    end
-    
   end
 end

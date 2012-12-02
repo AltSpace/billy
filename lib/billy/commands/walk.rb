@@ -51,19 +51,8 @@ module Billy
           :application => destination
         )
         
-        cap.set :scm, 'git'
-        cap.set :use_sudo, false
-        cap.set :deploy_via, :remote_cache
-        cap.set :application, destination
-        
         cap.server config.server, :app, :web, :db, :primary => true
         cap.set :user, config.user
-        
-        repository = config.repository || get_repository_path
-        branch = config.branch || 'master'
-        
-        cap.set :repository, repository
-        cap.set :branch, branch
         
         cap.namespace :deploy do
           cap.task :start, :roles => :app do; end

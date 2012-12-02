@@ -14,8 +14,8 @@ describe Billy::Commands::Eat do
   
   before :each do
     Billy::Config.instance.clear
-    command.stub!( :gets ) { "y\n" }
-    command.stub!( :print ) {}
+    Billy::Util::UI.stub!( :confirm? ) { true }
+    Billy::Util::UI.stub!( :inform ) {}
   end
   
   describe 'Proceed' do
@@ -44,8 +44,8 @@ describe Billy::Commands::Eat do
     
     before :each do
       Billy::Config.instance.clear
-      command.stub!( :gets ) { "y\n" }
-      command.stub!( :print ) {}
+      Billy::Util::UI.stub!( :confirm? ) { true }
+      Billy::Util::UI.stub!( :inform ) {}
     end
     
     it 'Should load remote config' do
@@ -58,7 +58,6 @@ describe Billy::Commands::Eat do
     end
     
     it 'Should save all the settings to config' do
-      # simply remove it if it fails )))
       command.proceed!( [ remote_path ] )
       Billy::Config.instance.send( "User-Agent" ).should eq "*"
     end

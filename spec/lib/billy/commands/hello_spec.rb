@@ -28,8 +28,8 @@ describe Billy::Commands::Hello do
     
     before :each do
       
-      command.stub!( :gets ) { "y\n" }
-      command.stub!( :print ) {}
+      Billy::Util::UI.stub!( :confirm? ) { true }
+      Billy::Util::UI.stub!( :inform ) {}
       command.stub!( :ssh_key_exists? ) { true }
       command.stub!( :ssh_command_exists? ) { true }
       
@@ -47,11 +47,6 @@ describe Billy::Commands::Hello do
       expect{ command.proceed! }.to_not raise_error
     end
     
-    # it 'Should create config file inside folder to proceed' do
-    #   command.proceed!( arguments )
-    #   File.exists?( File.expand_path( init_path + "/#{Billy::Config::BILLYRC}" ) ).should be_true
-    # end
-    
   end
   
   describe 'SSH' do
@@ -59,7 +54,8 @@ describe Billy::Commands::Hello do
     let!( :command ) { Billy::Commands::Hello.instance }
     
     before :each do
-      command.stub!( :print ) {}
+      Billy::Util::UI.stub!( :confirm? ) { true }
+      Billy::Util::UI.stub!( :inform ) {}
     end
     
     it 'Offer to generate ssh key if it does not exist' do

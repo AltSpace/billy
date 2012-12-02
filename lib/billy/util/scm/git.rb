@@ -9,6 +9,9 @@ module Billy
       def configure!( cap, config )
         cap.set :scm, :git
         cap.set :repository, config.repository || get_repository_path
+        branch = config.branch || 'master'
+        cap.set :repository, repository
+        cap.set :branch, branch
       end
       
       def get_config
@@ -61,7 +64,7 @@ module Billy
             i += 1
             Billy::Util::UI.inform "#{i}: #{remote[0]}\t\t#{remote[1]}"
           end
-          while ( idx = gets.chomp.to_i ) > match_data.length; end
+          while ( idx = Billy::Util::UI.input.to_i ) > match_data.length; end
         end
         match_data[ idx - 1 ][ 1 ]
       end
@@ -70,4 +73,4 @@ module Billy
   end
 end
 
-Billy::Util::Scm::Git.register_self!
+Billy::Util::Git.register_self!

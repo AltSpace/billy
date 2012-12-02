@@ -16,13 +16,17 @@ module Billy
           colorize( text, "e[32m" )
         end
         
+        def input
+          gets.chomp.downcase
+        end
+        
         def confirm?( msg = nil )
           inform( msg ) if !msg.nil?
-          gets.chomp.downcase == "y"
+          input == "y"
         end
         
         def inform( msg )
-          print "#{msg.to_s}\n"
+          puts "#{msg.to_s}\n"
         end
         
         def succ( msg )
@@ -32,6 +36,7 @@ module Billy
         def err( msg )
           inform red msg
         end
+        
       end
       
     end

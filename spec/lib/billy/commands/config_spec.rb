@@ -18,8 +18,8 @@ describe Billy::Commands::Config do
     end
     
     before :each do
-      command.stub!( :gets ) { "y\n" }
-      command.stub!( :print ) {}
+      Billy::Util::UI.stub!( :confirm? ) { true }
+      Billy::Util::UI.stub!( :inform ) {}
     end
     
     it 'Should raise error if there is no settings file' do

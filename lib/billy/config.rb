@@ -2,7 +2,8 @@ module Billy
   class Config
     
     BILLYRC = '.billyrc'
-    SEPARATOR = /:\s*/
+    SEPARATOR_PATTERN = /:\s*/
+    SEPARATOR = ': '
     
     attr_accessor :storage
     attr_accessor :storage_path
@@ -84,7 +85,7 @@ module Billy
       clear
       string_config.each_line do |line|
         next unless !line.empty?
-        items = line.split( SEPARATOR )
+        items = line.split( SEPARATOR_PATTERN )
         k = items.shift
         v = items.join( SEPARATOR ).strip
         ( self.storage[ k.to_s ] = v ) unless k.nil? || k.empty? || v.nil? || v.empty?

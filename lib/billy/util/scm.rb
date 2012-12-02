@@ -1,3 +1,5 @@
+require 'billy/util/ui'
+
 module Billy
   module Util
     class Scm
@@ -11,8 +13,8 @@ module Billy
         end
         
         def register_scm( scm )
-          key = scm.class.to_s.split( "::" ).last.downcase
-          ( self.pool ||= [] )[ key ] = scm
+          key = scm.class.to_s.split( "::" ).last.downcase.to_sym
+          ( self.pool ||= {} )[ key ] = scm
         end
         
         def configure!( cap, config )
