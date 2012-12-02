@@ -27,7 +27,7 @@ module Billy
         self.storage.each_pair do |k, v|
           res.push "#{k}#{SEPARATOR}#{v}"
         end
-      }.push( "" ).join( "\n" )
+      }.push( '' ).join( "\n" )
     end
     
     def load

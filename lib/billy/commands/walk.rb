@@ -47,13 +47,15 @@ module Billy
         reject_keys = [ :deploy_to, :server ]
         
         {
-          :scm => 'git',
+          :scm => :git,
           :use_sudo => false,
           :deploy_via => :remote_cache,
           :application => destination
         }.merge( config.storage.reject{ |k, v| reject_keys.include?( k ) } ).each_pair do |k, v|
           cap.set k, v
         end
+        
+        Billy::Util::Scm.configure!( cap, config )
         
         cap.server config.server, :app, :web, :db, :primary => true
         

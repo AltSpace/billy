@@ -9,9 +9,7 @@ module Billy
       def configure!( cap, config )
         cap.set :scm, :git
         cap.set :repository, config.repository || get_repository_path
-        branch = config.branch || 'master'
-        cap.set :repository, repository
-        cap.set :branch, branch
+        cap.set :branch, config.branch || 'master'
       end
       
       def get_config
