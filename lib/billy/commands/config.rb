@@ -14,8 +14,8 @@ module Billy
           Billy::Config.load!( dir )
           Billy::Util::UI.inform "Current Billy settings:"
           Billy::Config.settings.each_pair do |k, v|
-            yellow_k = "#{k}".yellow
-            Billy::Util::UI.inform "#{yellow_k}:\t\t#{v.blue}"
+            yellow_k = "#{k}".magenta
+            Billy::Util::UI.inform "#{yellow_k}:\t\t#{v.green}"
           end
           return
         end

@@ -21,6 +21,8 @@ module Billy
             Billy::Util::UI.succ res
             Billy::Util::UI.inform "Copy and add it to your deployment server."
           end
+        when :config
+          Billy::Commands::Config.instance.proceed!( arguments )
         else
           Billy::Util::UI.err "Billy doesn't know #{sub_cmd} command."
           exit 1
