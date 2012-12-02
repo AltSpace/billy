@@ -22,11 +22,11 @@ describe Billy::Commands::Config do
       Billy::Util::UI.stub!( :inform ) {}
     end
     
-    it 'Should raise error if there is no settings file' do
-      config_file = File.expand_path( Billy::Config::BILLYRC )
-      File.unlink( config_file ) if File.exists?( config_file )
-      expect { command.proceed! }.to raise_error
-    end
+    # it 'Should raise error if there is no settings file' do
+    #   config_file = File.expand_path( Billy::Config::BILLYRC )
+    #   File.unlink( config_file ) if File.exists?( config_file )
+    #   expect { command.proceed! }.to raise_error
+    # end
     
     it 'Should not raise error if there is a config file' do
       config_file = File.expand_path( Billy::Config::BILLYRC )
