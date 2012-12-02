@@ -11,8 +11,15 @@ module Billy
         end
         sub_cmd = arguments.shift.downcase.to_sym rescue nil
         case sub_cmd
-        when :key
-          Billy::Util::Ssh.get_pub_key
+        when :key 
+          res = Billy::Util::Ssh.get_pub_key
+          if res.nil?
+            Billy::Util::UI.err "Billy could not find your ssh key. Say billy hello."
+            exit 1
+          else
+            Billy::Util::UI.inform "Your ssh key:"
+            Billy::Util::UI.succ res
+          end
         else
           Billy::Util::UI.err "Billy doesn't know #{sub_cmd} command."
           exit 1

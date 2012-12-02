@@ -6,6 +6,8 @@ describe Billy::Commands::My do
   
   before :each do
     Billy::Util::UI.stub!( :inform ) {}
+    Billy::Util::UI.stub!( :succ ) {}
+    Billy::Util::UI.stub!( :err ) {}
   end
   
   describe 'proceed!' do
