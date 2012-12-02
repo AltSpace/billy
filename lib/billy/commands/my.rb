@@ -9,7 +9,7 @@ module Billy
           Billy::Util::UI.err 'Please provide Billy more info what do you need?'
           exit 1
         end
-        sub_cmd = arguments.shift.to_sym
+        sub_cmd = arguments.shift.downcase.to_sym rescue nil
         case sub_cmd
         when :key
           Billy::Util::Ssh.get_pub_key

@@ -20,5 +20,12 @@ describe Billy::Commands::My do
       expect{ command.proceed!( [ unknown_command ] ) }.to raise_error SystemExit
     end
     
+    it 'Should not raise error for key subcommand' do
+      flag = false
+      Billy::Util::Ssh.stub!( :get_pub_key ) { flag = true }
+      expect{ command.proceed!( [ "key" ] ) }.to_not raise_error
+      flag.should be_true
+    end
+    
   end
 end
