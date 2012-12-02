@@ -42,7 +42,7 @@ After config file is set up and you have pushed all the changes you've done Bill
 
 Here I will show how to download remote config file to my local folder and then deploy some project_name to staging server:
 
-```
+```bash
 cd ~
 billy eat http://staging.server.com/billy.cfg
 cd project_name
@@ -58,3 +58,11 @@ Auth process:
 deployer → ssh → staging server → ssh → git remote repository
 
 This scheme requires deployer publick key to be placed on staging server and staging server publick key on remote git server.
+
+### Get my ssh key
+
+```bash
+billy my key
+```
+
+This command will return one of your ssh keys, first it returns id_rsa.pub key

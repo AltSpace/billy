@@ -24,6 +24,7 @@ module Billy
             key = File.basename( f, '.pub' ).to_sym
             res[ key ] = File.read( f )
           end
+          res
         end
       end
     end

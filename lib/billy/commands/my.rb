@@ -17,8 +17,9 @@ module Billy
             Billy::Util::UI.err "Billy could not find your ssh key. Say billy hello."
             exit 1
           else
-            Billy::Util::UI.inform "Your ssh key:"
+            Billy::Util::UI.inform "Billy found an ssh key:"
             Billy::Util::UI.succ res
+            Billy::Util::UI.inform "Copy and add it to your deployment server."
           end
         else
           Billy::Util::UI.err "Billy doesn't know #{sub_cmd} command."
