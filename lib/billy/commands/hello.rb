@@ -31,7 +31,7 @@ module Billy
       end
       
       def ssh_key_exists?
-        Billy::Util::Ssh.get_pub_key.nil?
+        !Billy::Util::Ssh.get_pub_key.nil?
       end
       
       def suggest_install_ssh
