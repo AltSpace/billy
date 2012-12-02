@@ -7,7 +7,7 @@ module Billy
         command = ARGV.shift
         arguments = ARGV
         if command.nil?
-          Billy::Util::UI.inform "Billy has nothing to do. Yay!"
+          Billy::Util::UI.succ "Billy has nothing to do. Yay!"
           exit 0
         end
         status = proceed_command!( command, arguments )

@@ -6,7 +6,6 @@ module Billy
       
       def proceed!( arguments = nil )
         billy_say_hello
-        path = get_init_path( arguments )
         if !ssh_command_exists?
           suggest_install_ssh
           exit 1
@@ -53,18 +52,7 @@ module Billy
         Billy::Util::UI.inform "Billy creates ssh keys for you..."
         system "ssh-keygen -t #{enc_type} -N '' -f ~/.ssh/id_#{enc_type}"
       end
-      
-      def get_init_path( arguments )
-        ( path = arguments.shift ) unless arguments.nil?
-        if path.nil? || path.empty?
-          if !Billy::Util::UI.confirm? "Billy will be inited in current directory. Proceed?(y/n): "
-            Billy::Util::UI.inform "Billy has nothing to do. Bye-bye."
-          end
-          path = Dir.pwd
-        end
-        File.expand_path( path )
-      end
-      
+            
     end
   end
 end

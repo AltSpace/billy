@@ -1,19 +1,17 @@
+require 'colorize'
+
 module Billy
   module Util
     class UI
       
       class << self
         
-        def colorize( text, color_code )
-          "#{color_code}#{text}e[0m"
-        end
-
         def red( text )
-          colorize( text, "e[31m" )
+          text.red
         end
         
         def green( text )
-          colorize( text, "e[32m" )
+          text.green
         end
         
         def input

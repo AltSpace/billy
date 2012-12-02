@@ -10,3 +10,4 @@ group :development do
 end
 
 gem 'capistrano', '~> 2.13.5'
+gem 'colorize', '~> 0.5.8'

@@ -1,6 +1,6 @@
 $:.unshift File.dirname( __FILE__ )
 
-Module Billy
+module Billy
   require 'billy/session'
   require 'billy/util/ui'
   require 'billy/commands'
