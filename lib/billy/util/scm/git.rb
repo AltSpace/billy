@@ -1,4 +1,4 @@
-require 'billy/util/scm'
+require 'billy/util/scm/scm'
 
 module Billy
   module Util

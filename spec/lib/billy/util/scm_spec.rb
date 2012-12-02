@@ -1,91 +1,60 @@
-require 'billy/util/scm/git'
+require 'billy/util/scm/scm'
+require 'ostruct'
 
-describe Billy::Util::Git do
+describe Billy::Util::Scm do
   
-  let!( :git ) { Billy::Util::Git.new }
-  let!( :url1 ) { 'gitorious@git.undev.cc:digital-october/panels.git' }
-  let!( :url2 ) { 'git@github.com:4pcbr/panels.git' }
-  let!( :git_config ) {
-    <<-EOS
-[core]
-repositoryformatversion = 0
-filemode = true
-bare = false
-logallrefupdates = true
-ignorecase = true
-[remote "origin"]
-url = #{url1}
-fetch = +refs/heads/*:refs/remotes/origin/*
-[remote "gh"]
-url = #{url2}
-fetch = +refs/heads/*:refs/remotes/gh/*
-EOS
-  }
-
-  let!( :git_config_without_remotes ) {
-    <<-EOS
-[core]
-repositoryformatversion = 0
-filemode = true
-bare = false
-logallrefupdates = true
-ignorecase = true
-EOS
-  }
-  let!( :remotes ) { [
-    [ "origin", url1 ],
-    [ "gh", url2 ]
-  ] }
+  let!( :cap ) { OpenStruct.new }
   
-  before :each do
-    Billy::Util::UI.stub( :inform ) {}
+  class TestScm < Billy::Util::Scm
+    def configure!( cap, scm )
+      cap.send( 'test_k=', 'test_v' )
+    end
   end
   
-  describe 'get_repository_path' do
-
-    before :each do
-      git.stub!( :local_repository_exists? ) { true }
-      git.stub!( :get_git_config ) { git_config }
-      git.stub!( :remote_repository_exists? ) { true }
-    end
+  let!( :scm ) { Billy::Util::Scm }
+  let!( :test_scm ) { TestScm.new }
+  let!( :unknown_scm ) { :asdfasdf }
+  
+  describe 'self.register_self!' do
     
-    it 'returns first remote path' do
-      Billy::Util::UI.stub!( :gets ) { "1\n" }
-      git.get_repository_path.should eq url1
-    end
-    
-    it 'returns first remote path' do
-      Billy::Util::UI.stub!( :gets ) { "2\n" }
-      git.get_repository_path.should eq url2
+    it 'Should register itself' do
+      expect{ test_scm.class.register_self! }.to_not raise_error
+      scm.pool.has_key?( test_scm.class.to_s.downcase.to_sym ).should be_true
     end
     
   end
   
-  describe 'remote_repository_exists?' do
+  describe 'register_scm' do
     
-    it 'Returns true for config with remotes' do
-      git.remote_repository_exists?( git_config ).should be_true
+    it 'Should not raise error on registering new scm' do
+      expect{ scm.register_scm( test_scm ) }.to_not raise_error
     end
     
-    it 'Returns false for config without remotes' do
-      git.remote_repository_exists?( git_config_without_remotes ).should be_false
+    it 'Should store scm in global pool' do
+      scm.register_scm( test_scm )
+      scm.pool.has_key?( test_scm.class.to_s.downcase.to_sym ).should be_true
     end
     
   end
   
-  describe 'get_remotes' do
-    it 'Returns all remotes' do
-      git.get_remotes( git_config ).should eq remotes
+  describe 'configure!' do
+    
+    it 'Should raise error if scm is unknown' do
+      expect{ scm.configure!( cap, { :scm => unknown_scm } ) }.to raise_error
     end
-  end
-  
-  describe 'init_repository' do
-    it 'forces system to call git init' do
-      system_arg = nil
-      git.stub!( :system ) { |arg| system_arg = arg }
-      git.init_repository
-      system_arg.should eq "git init ."
+    
+    it 'Should not raise error if scm registered' do
+      scm.register_scm( test_scm )
+      expect{ scm.configure!( cap, { :scm => test_scm.class.to_s.downcase.to_sym } ) }.to raise_error
     end
+    
+    it 'Should configure cap' do
+      scm.register_scm( test_scm )
+      scm.configure!( cap, OpenStruct.new( :scm => test_scm.class.to_s.downcase.to_sym ) )
+      cap.send( 'test_k' ).should eq 'test_v'
+    end
+    
   end
   
 end
+

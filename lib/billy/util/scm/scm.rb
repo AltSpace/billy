@@ -19,7 +19,7 @@ module Billy
         
         def configure!( cap, config )
           scm = ( config.scm || :git ).to_sym
-          raise "#{scm} handler is unknown." if !pool.has_key?( scm )
+          raise "#{scm} handler is unknown." if !self.pool.has_key?( scm )
           pool[ scm ].configure!( cap, config )
         end
       
