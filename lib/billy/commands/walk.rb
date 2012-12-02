@@ -44,15 +44,18 @@ module Billy
         cap.set :deploy_to, File.join( config.deploy_to, destination )
         cap.set :normalize_asset_timestamps, false
         
-        settings = Hash.new(
+        reject_keys = [ :deploy_to, :server ]
+        
+        {
           :scm => 'git',
           :use_sudo => false,
           :deploy_via => :remote_cache,
           :application => destination
-        )
+        }.merge( config.storage.reject{ |k, v| reject_keys.include?( k ) } ).each_pair do |k, v|
+          cap.set k, v
+        end
         
         cap.server config.server, :app, :web, :db, :primary => true
-        cap.set :user, config.user
         
         cap.namespace :deploy do
           cap.task :start, :roles => :app do; end
