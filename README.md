@@ -23,7 +23,7 @@ If everything is ok this command will ask you to provide superuser password and 
 
 `billy hello` will check all the system requirements and will give some helpful info. Billy will great you if all the requirements are satisfied And prompt to install otherwise.
 
-`billy eat {url_to_billy_config_or_local_file}` will parse config file with specified path and save it to current folder. `url_to_billy_config_or_local_file` could be local file path or remote file url. Spaeking of deploy process billy will check both current and home folders while looking for config file. Billy stores it's settings in file named `.billyrc`.
+`billy eat {url_to_billy_config_or_local_file}` will parse config file with specified path and save it to current folder. `url_to_billy_config_or_local_file` could be local file path or remote file url. During deploy process billy will check both current and home folders while looking for config file. Billy stores it's settings in file named `.billyrc`.
 
 ### Sample config file
 
