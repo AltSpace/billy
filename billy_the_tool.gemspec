@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["4pcbr"]
-  s.date = %q{2012-12-03}
+  s.date = %q{2013-04-10}
   s.default_executable = %q{billy}
   s.description = %q{Billy is simplified deploy system based on top of capistrano}
   s.email = %q{me@4pcbr.com}
