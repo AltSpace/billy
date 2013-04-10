@@ -88,4 +88,40 @@ EOS
     end
   end
   
+  describe 'current_branch' do
+    
+    class Acceptor
+      def register(k, &blk)
+        (@handlers ||= {})[k.to_sym] = blk
+      end
+      def method_missing(method, *args, &block)
+        handler = (@handlers ||= {})[method.to_sym]
+        handler.call(*args) if !handler.nil?
+      end
+    end
+    
+    let!(:acceptor) { Acceptor.new }
+
+    before :each do
+      git.stub( :'`' ) { |arg| acceptor.system_call(arg) }
+    end
+
+    it 'Should be defined' do
+      git.should respond_to :current_branch
+    end
+
+    it 'Should return master branch' do
+      acceptor.register(:system_call) do |arg|
+        'refs/heads/master'
+      end
+      git.current_branch.should eq 'master'
+    end
+
+    it 'Should return staging branch' do
+      acceptor.register(:system_call) do |arg|
+        'refs/heads/staging'
+      end
+      git.current_branch.should eq 'staging'
+    end
+  end
 end

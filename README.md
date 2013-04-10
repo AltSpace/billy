@@ -4,8 +4,6 @@
 
 Billy is very simple deploy application built on top of [capistrano](https://github.com/capistrano/capistrano). This tool may be useful for designers and html programmers to simplify roll out process on staging server.
 
-Deploy model undermeans single staging server and deploying from `master` branch only.
-
 ## Install
 
 Billy distributes as [ruby gem](http://rubygems.org/gems/billy_the_tool), requires ruby 1.8.7+ and superuser privileges in case of global system installation (not [rvm](https://rvm.io/)).
@@ -42,9 +40,14 @@ billy my config
 This command will return config settings from current folder if there wis .billyrc file, home settings from ~/.billyrc otherwise.
 
 ### GIT dependency
+
 Billy hopes to find git repository inside your project with existing remote. You haven't say billy where your remote is. It checks for `.git/config` file and grabs all the remotes inside.
 
 After config file is set up and you have pushed all the changes you've done Billy is ready to deploy.
+
+#### Current branch instead of master since v0.2.4
+
+Version 0.2.4 brings new feature about git usage: not it'll get your current branch if no one is specified in config with `branch:` key.
 
 ## Usage
 

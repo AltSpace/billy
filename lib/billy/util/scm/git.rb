@@ -9,9 +9,13 @@ module Billy
       def configure!( cap, config )
         cap.set :scm, :git
         cap.set :repository, config.repository || get_repository_path
-        cap.set :branch, config.branch || 'master'
+        cap.set :branch, config.branch || current_branch
       end
       
+      def current_branch
+        `git symbolic-ref HEAD 2> /dev/null`.strip.gsub(/^refs\/heads\//, '')
+      end
+
       def get_config
         File.read( File.expand_path( GIT_PATH + "/config" ) )
       end
